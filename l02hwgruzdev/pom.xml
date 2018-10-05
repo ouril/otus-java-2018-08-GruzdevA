@@ -4,9 +4,17 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>l02hwgruzdev</groupId>
-    <artifactId>l02hwgruzdev</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <name>MemoryCounterStand</name>
 
+    <groupId>ru.otus</groupId>
+    <artifactId>l02hwgruzdev</artifactId>
+    <version>2018-08</version>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>1.10</maven.compiler.source>
+        <maven.compiler.target>1.10</maven.compiler.target>
+        <com.google.guava.version>26.0-jre</com.google.guava.version>
+    </properties>
 
 </project>
