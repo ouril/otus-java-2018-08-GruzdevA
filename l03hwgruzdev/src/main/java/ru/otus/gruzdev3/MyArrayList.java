@@ -31,16 +31,31 @@ public class MyArrayList<E> implements List<E> {
     }
 
     public int size() {
-        return size;
+        return this.size;
     }
 
     public boolean isEmpty() {
-        if (size == 0) return true;
-        return false;
+        return this.size == 0;
     }
 
     public boolean contains(Object o) {
+        int i;
+        for(i = 0; i < this.size; ++i) {
+            if (o.equals(this.array[i])) {
+                return true;
+            }
+        }
         return false;
+    }
+
+    private int containsWithIndex(Object o) {
+        int i;
+        for(i = 0; i < this.size; ++i) {
+            if (o.equals(this.array[i])) {
+                return i;
+            }
+        }
+        return -1;
     }
 
     public Iterator<E> iterator() {
@@ -78,6 +93,9 @@ public class MyArrayList<E> implements List<E> {
     }
 
     public boolean remove(Object o) {
+        int i = containsWithIndex(o);
+        int newSize = this.size -1;
+
         return false;
     }
 
@@ -114,6 +132,7 @@ public class MyArrayList<E> implements List<E> {
     }
 
     public void clear() {
+        size = 0;
 
     }
 
