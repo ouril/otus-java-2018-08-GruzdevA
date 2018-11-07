@@ -84,19 +84,27 @@ public class MyArrayList<E> implements List<E> {
             System.arraycopy(array, 0, newArray, 0, array.length);
             array = newArray;
             array[size] = t;
-        } finally {
-            ++size;
-            return true;
         }
-        //return false;
+        ++size;
+        return true;
 
     }
 
     public boolean remove(Object o) {
-        int i = containsWithIndex(o);
-        int newSize = this.size -1;
 
-        return false;
+        int i = containsWithIndex(o);
+        if (i == 1){
+            return false;
+
+        } else {
+            int newSize;
+
+            if ((newSize = this.size - 1) > i) {
+                System.arraycopy(array, i + 1, array, i, newSize - i);
+            }
+            //array = newarray;
+            return true;
+        }
     }
 
     public boolean containsAll(Collection<?> c) {
