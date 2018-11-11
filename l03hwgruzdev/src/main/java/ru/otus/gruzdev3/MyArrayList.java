@@ -8,7 +8,7 @@ import java.util.stream.Stream;
 
 public class MyArrayList<E> implements List<E> {
 
-    int size;
+    private int size;
     private E[] array;
 
     public MyArrayList() {
@@ -63,11 +63,14 @@ public class MyArrayList<E> implements List<E> {
     }
 
     public void forEach(Consumer<? super E> action) {
-
+        int i;
+        for (i = 0; i < size; i++){
+            action.accept(array[i]);
+        }
     }
 
     public Object[] toArray() {
-        return new Object[0];
+        return array;
     }
 
     public <T1> T1[] toArray(T1[] a) {
@@ -75,7 +78,6 @@ public class MyArrayList<E> implements List<E> {
     }
 
     public boolean add(E t) {
-
         try {
             array[size] = t;
         } catch (java.lang.ArrayIndexOutOfBoundsException e) {
@@ -93,7 +95,7 @@ public class MyArrayList<E> implements List<E> {
     public boolean remove(Object o) {
 
         int i = containsWithIndex(o);
-        if (i == 1){
+        if (i == -1){
             return false;
 
         } else {
@@ -102,17 +104,33 @@ public class MyArrayList<E> implements List<E> {
             if ((newSize = this.size - 1) > i) {
                 System.arraycopy(array, i + 1, array, i, newSize - i);
             }
+            size--;
             //array = newarray;
             return true;
         }
     }
 
     public boolean containsAll(Collection<?> c) {
-        return false;
+        int i;
+        for (i = 0; i < c.size(); i++){
+            if (!contains(c.toArray()[i])) {
+                return false;
+            }
+        }
+        return true;
     }
 
     public boolean addAll(Collection<? extends E> c) {
-        return false;
+       try {
+
+           for(E o: c) {
+               add(o);
+           }
+           return true;
+       } catch (Exception e) {
+           e.fillInStackTrace();
+           return false;
+       }
     }
 
     public boolean addAll(int index, Collection<? extends E> c) {
@@ -160,7 +178,14 @@ public class MyArrayList<E> implements List<E> {
     }
 
     public E remove(int index) {
-        return null;
+
+            int newSize;
+            E obj = array[index];
+            if ((newSize = this.size - 1) > index) {
+                System.arraycopy(array, index + 1, array, index, newSize - index);
+            }
+            return obj;
+            //array = newarray;
     }
 
     public int indexOf(Object o) {
