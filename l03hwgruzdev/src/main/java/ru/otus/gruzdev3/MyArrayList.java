@@ -6,7 +6,7 @@ import java.util.function.Predicate;
 import java.util.function.UnaryOperator;
 import java.util.stream.Stream;
 
-public class MyArrayList<E> implements List<E> {
+public class MyArrayList<E> implements Collection<E> {
 
     private int size;
     private E[] array;
@@ -105,7 +105,6 @@ public class MyArrayList<E> implements List<E> {
                 System.arraycopy(array, i + 1, array, i, newSize - i);
             }
             size--;
-            //array = newarray;
             return true;
         }
     }
@@ -133,10 +132,6 @@ public class MyArrayList<E> implements List<E> {
        }
     }
 
-    public boolean addAll(int index, Collection<? extends E> c) {
-        return false;
-    }
-
     public boolean removeAll(Collection<?> c) {
         return false;
     }
@@ -149,13 +144,7 @@ public class MyArrayList<E> implements List<E> {
         return false;
     }
 
-    public void replaceAll(UnaryOperator<E> operator) {
 
-    }
-
-    public void sort(Comparator<? super E> c) {
-
-    }
 
     public void clear() {
         size = 0;
@@ -169,14 +158,6 @@ public class MyArrayList<E> implements List<E> {
         return array[index];
     }
 
-    public E set(int index, E element) {
-        return null;
-    }
-
-    public void add(int index, E element) {
-
-    }
-
     public E remove(int index) {
 
             int newSize;
@@ -188,35 +169,4 @@ public class MyArrayList<E> implements List<E> {
             //array = newarray;
     }
 
-    public int indexOf(Object o) {
-        return 0;
-    }
-
-    public int lastIndexOf(Object o) {
-        return 0;
-    }
-
-    public ListIterator<E> listIterator() {
-        return null;
-    }
-
-    public ListIterator<E> listIterator(int index) {
-        return null;
-    }
-
-    public List<E> subList(int fromIndex, int toIndex) {
-        return null;
-    }
-
-    public Spliterator<E> spliterator() {
-        return null;
-    }
-
-    public Stream<E> stream() {
-        return null;
-    }
-
-    public Stream<E> parallelStream() {
-        return null;
-    }
 }
