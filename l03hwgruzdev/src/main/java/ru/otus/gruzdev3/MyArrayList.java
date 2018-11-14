@@ -3,8 +3,6 @@ package ru.otus.gruzdev3;
 import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
-import java.util.function.UnaryOperator;
-import java.util.stream.Stream;
 
 public class MyArrayList<E> implements Collection<E> {
 
@@ -58,8 +56,26 @@ public class MyArrayList<E> implements Collection<E> {
         return -1;
     }
 
+    public class Itr<E> implements Iterator<E> {
+        private int cursor = -1;
+
+        @Override
+        public boolean hasNext() {
+            return cursor != size;
+        }
+
+        @Override
+        public E next() {
+            if (hasNext()) {
+                cursor++;
+                return (E) array[cursor];
+            }
+            throw new NoSuchElementException();
+        }
+    }
+
     public Iterator<E> iterator() {
-        return null;
+        return new Itr<E>();
     }
 
     public void forEach(Consumer<? super E> action) {
@@ -133,17 +149,47 @@ public class MyArrayList<E> implements Collection<E> {
     }
 
     public boolean removeAll(Collection<?> c) {
-        return false;
+        try {
+            c.forEach(obj -> remove(obj));
+            return true;
+        } catch(Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+
     }
 
     public boolean removeIf(Predicate<? super E> filter) {
-        return false;
+        try {
+            for (E obj : array) {
+                if (filter.test(obj)) {
+                    remove(obj);
+                }
+            }
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+
     }
 
     public boolean retainAll(Collection<?> c) {
-        return false;
-    }
 
+        MyArrayList<E> newMyArrayList = new MyArrayList<>();
+        c.forEach(obj -> {
+           if (contains(obj)){
+               newMyArrayList.add((E) obj);
+           }
+        });
+        if (newMyArrayList.size() > 0 ){
+            array = newMyArrayList.array;
+            size = newMyArrayList.size;
+            return true;
+        }
+        return false;
+
+    }
 
 
     public void clear() {
@@ -166,7 +212,6 @@ public class MyArrayList<E> implements Collection<E> {
                 System.arraycopy(array, index + 1, array, index, newSize - index);
             }
             return obj;
-            //array = newarray;
     }
 
 }
