@@ -7,49 +7,66 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class TestCase {
-    ArrayList<Method> testMethods = new ArrayList<>();
-    ArrayList<Method> beforMethods = new ArrayList<>();
-    ArrayList<Method> afterMethods = new ArrayList<>();
+    private ArrayList<Method> testMethods = new ArrayList<>();
+    private ArrayList<Method> beforMethods = new ArrayList<>();
+    private ArrayList<Method> afterMethods = new ArrayList<>();
+    private int failed = 0;
+    private int isOk = 0;
 
-    @Test
-    public void test(){
-        System.out.println("Hello");
+
+    public void assertEqual(String testName, boolean result){
+        if (result) {
+            System.out.println(testName + " -> ok");
+            isOk++;
+        } else {
+            System.out.println(testName + " -> failed");
+            failed++;
+        }
     }
 
-    void getTests () {
-        Class<? extends  Object> cls = this.getClass();
+    private void getTests() {
+        Class<? extends Object> cls = this.getClass();
         Method[] methods = cls.getDeclaredMethods();
 
 
         Arrays.stream(methods).forEach((method) -> {
-            String methodName = method.getName();
-            System.out.println("Name of method  ->  " + methodName);
             method.setAccessible(true);
-            Annotation[] anatatins = method.getDeclaredAnnotations();
-            Arrays.stream(anatatins).forEach(anatation -> {
-                if(anatation instanceof Test && !((Test) anatation).skip()){
-                   testMethods.add(method);
+            Annotation[] annotations = method.getDeclaredAnnotations();
+            Arrays.stream(annotations).forEach(annotation -> {
+                if (annotation instanceof Test && !((Test) annotation).skip()) {
+                    testMethods.add(method);
+                } else if (annotation instanceof Before) {
+                    beforMethods.add(method);
+                } else if (annotation instanceof  After) {
+                    afterMethods.add(method);
                 }
             });
         });
     }
 
-    void runTests(){
+    public void runTests(){
         getTests();
+        runTypeofMethods(beforMethods);
         runTypeofMethods(testMethods);
+        runTypeofMethods(afterMethods);
+        System.out.println("There is " + isOk + " test was OK" + " and " + failed + " was failed");
     }
 
     private void runTypeofMethods(ArrayList<Method> methods) {
+
         if (!methods.isEmpty()) {
-            methods.forEach((method) -> {
-                try {
-                    method.invoke(this);
-                } catch (IllegalAccessException e) {
-                    e.printStackTrace();
-                } catch (InvocationTargetException e) {
-                    e.printStackTrace();
-                }
-            });
+            for (Method method : methods) {
+
+                    try{
+                        method.invoke(this);
+                    } catch (IllegalAccessException | InvocationTargetException e){
+                        e.printStackTrace();
+                    }
+
+
+
+            }
         }
+
     }
 }
