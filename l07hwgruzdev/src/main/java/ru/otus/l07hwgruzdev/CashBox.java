@@ -1,6 +1,5 @@
 package ru.otus.l07hwgruzdev;
 
-import java.lang.annotation.Inherited;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -22,29 +21,46 @@ public class CashBox {
         }
     }
 
-    private int getTotalSum(){
-       return faceValuesList.stream().mapToInt(faceValue -> faceValues.get(faceValue)).sum();
+    public int getTotalSum(){
+       return faceValuesList.stream().mapToInt(faceValue -> faceValues.get(faceValue) * faceValue).sum();
     }
 
 
-    public HashMap<Integer, Integer> getCash(int summa){
+    public HashMap<Integer, Integer> getCash(int summa) throws NoMoneyException{
         List<Integer> listValues = faceValuesList;
         Collections.sort(listValues);
         Collections.reverse(listValues);
         int reminder = summa;
+
         HashMap<Integer, Integer> cash = new HashMap<>();
-        if (summa <= getTotalSum() && summa % Collections.min(faceValuesList) == 0) {
+        if (reminder <= getTotalSum() && reminder % Collections.min(faceValuesList) == 0) {
             for (Integer faceValue : listValues){
-                if(summa > faceValue && faceValues.get(faceValue) > 0){
-                    // TODO finish this
+                int countOfFaceValueInAtm = faceValues.get(faceValue);
+                if(reminder > faceValue &&  countOfFaceValueInAtm > 0){
+                    int countOfFaceValue = reminder / faceValue;
+                    if (countOfFaceValueInAtm >= countOfFaceValue){
+                        try {
+                            faceValues.put(faceValue, countOfFaceValueInAtm - countOfFaceValue);
+                        } finally {
+                            cash.put(faceValue, countOfFaceValue);
+                            reminder -= faceValue * countOfFaceValue;
+                        }
+                    } else {
+                        try {
+                            faceValues.put(faceValue, 0);
+                        } finally {
+                            cash.put(faceValue, countOfFaceValueInAtm);
+                            reminder -= faceValue * countOfFaceValueInAtm;
+                        }
+                    }
 
 
                 }
             }
+            return cash;
 
+        } throw new NoMoneyException();
 
-        }
-        return cash;
     }
 
 }
