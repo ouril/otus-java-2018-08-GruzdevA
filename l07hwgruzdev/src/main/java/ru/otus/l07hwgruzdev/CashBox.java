@@ -5,27 +5,29 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
-public class CashBox {
+public class CashBox implements CashManager {
 
-    final private ArrayList<Integer> faceValuesList;
+    final private List<Integer> faceValuesList;
     private HashMap<Integer, Integer> faceValues = new HashMap<>();
 
-    public CashBox(ArrayList<Integer> faceValuesList) {
+    public CashBox(List<Integer> faceValuesList) {
         this.faceValuesList = faceValuesList;
         faceValuesList.forEach(i -> faceValues.put(i, 0));
     }
 
+    @Override
     public void putCash(Integer faceValue, int count){
         if (faceValues.containsKey(faceValue) && count > 0) {
             faceValues.put(faceValue, faceValues.get(faceValue) + count);
         }
     }
 
+    @Override
     public int getTotalSum(){
        return faceValuesList.stream().mapToInt(faceValue -> faceValues.get(faceValue) * faceValue).sum();
     }
 
-
+    @Override
     public HashMap<Integer, Integer> getCash(int summa) throws NoMoneyException{
         List<Integer> listValues = faceValuesList;
         Collections.sort(listValues);
@@ -59,7 +61,7 @@ public class CashBox {
             }
             return cash;
 
-        } throw new NoMoneyException();
+        } throw new NoMoneyException("Нет денег в кассе, требуте размена!!!");
 
     }
 

@@ -1,6 +1,7 @@
 package ru.otus.l07hwgruzdev;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -8,26 +9,20 @@ public class Main {
 
     public static void main(String[] args){
 
-        ArrayList<Integer> listOfCurrensy = new ArrayList<>();
-        listOfCurrensy.add(100);
-        listOfCurrensy.add(500);
-        listOfCurrensy.add(1000);
-        CashBox cash = new CashBox(listOfCurrensy);
-        cash.putCash(100, 12);
-        cash.putCash(1000, 10);
-        cash.putCash(500, 2);
-        System.out.println(cash.getTotalSum());
+       CommonATM atm = new CommonATM(new CashBox(Arrays.asList(100, 500, 1000)));
+       atm.putCash(100, 100);
+       atm.putCash(500, 10);
+       atm.putCash(1000, 5);
 
-        HashMap<Integer, Integer> faceVulue = null;
-        try {
-            faceVulue = cash.getCash(1701);
-            faceVulue.forEach((key, value) -> {
-                System.out.println(key + " -> " + value);
-            });
-        } catch (NoMoneyException e) {
-            System.out.println("No money((((");
-        }
+       String acc1 = "Андрей";
+       atm.initAccount(acc1);
 
-        System.out.println(cash.getTotalSum());
+       atm.enterAccount(acc1);
+
+       atm.setMoney(1000, 10);
+       atm.howMatch();
+       atm.getMoney(1700);
+       atm.getMoney(1222);
+
     }
 }

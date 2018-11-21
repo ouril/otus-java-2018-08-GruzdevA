@@ -1,15 +1,21 @@
 package ru.otus.l07hwgruzdev;
 
-import java.util.HashMap;
+public abstract class ATM {
+    final protected CashManager cashBox;
 
-public class ATM {
-    private HashMap<ClientAccount, Integer> clientBase;
-    final private ClientAccount clientSecurity;
-    final private CashBox cashBox;
-
-
-    public ATM(ClientAccount clientSecurity, CashBox cashBox) {
-        this.clientSecurity = clientSecurity;
+    protected ATM(CashManager cashBox) {
         this.cashBox = cashBox;
     }
+
+    abstract boolean getMoney(int summa);
+
+    abstract void setMoney(Integer faceValue, int count);
+
+    abstract boolean initAccount(String name);
+
+    abstract boolean enterAccount(String name);
+
+    abstract void exit();
+
+
 }
