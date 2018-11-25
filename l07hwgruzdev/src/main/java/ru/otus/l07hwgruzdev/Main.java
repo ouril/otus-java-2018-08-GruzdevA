@@ -1,9 +1,6 @@
 package ru.otus.l07hwgruzdev;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
 
 public class Main {
 
@@ -23,6 +20,8 @@ public class Main {
        atm.howMatch();
        atm.getMoney(1700);
        atm.getMoney(1222);
+       atm.getMoney(9000);
+       atm.exit();
 
     }
 }
