@@ -1,10 +1,14 @@
 package ATM;
 
+import MementoATM.Memento;
+import MementoATM.Originator;
+import MementoATM.State;
+
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
-public class CommonATM extends ATM {
+public class CommonATM extends ATM implements Originator {
     private Set<ClientAccount> accounts = new HashSet<>();
     private ClientAccount currentAccount = null;
 
@@ -92,4 +96,23 @@ public class CommonATM extends ATM {
 
     }
 
+    @Override
+    public void setState(State state) {
+
+    }
+
+    @Override
+    public String getState() {
+        return null;
+    }
+
+    @Override
+    public Memento saveState() {
+        return null;
+    }
+
+    @Override
+    public void restoreState(Memento memento) {
+
+    }
 }
