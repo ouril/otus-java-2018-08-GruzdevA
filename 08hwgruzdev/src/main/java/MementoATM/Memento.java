@@ -1,13 +1,16 @@
 package MementoATM;
 
-public class Memento {
-    private final State state;
+import ATM.CashBox;
+import ATM.CashManager;
 
-    public Memento(State state) {
+public class Memento {
+    private final CashManager state;
+
+    public Memento(CashManager state) {
         this.state = state;
     }
 
-    public State getState() {
+    public CashManager getState() {
         return state;
     }
 }

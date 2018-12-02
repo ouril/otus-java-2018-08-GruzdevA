@@ -1,7 +1,7 @@
 package ATM;
 
 public abstract class ATM {
-    final protected CashManager cashBox;
+    protected CashManager cashBox;
 
     protected ATM(CashManager cashBox) {
         this.cashBox = cashBox;

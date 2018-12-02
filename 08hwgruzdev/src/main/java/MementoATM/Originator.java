@@ -1,10 +1,13 @@
 package MementoATM;
 
+import ATM.CashBox;
+import ATM.CashManager;
+
 public interface Originator {
 
-    public void setState(State state);
+    public void setState(CashManager state);
 
-    public String getState();
+    public CashManager getState();
 
     public Memento saveState();
 

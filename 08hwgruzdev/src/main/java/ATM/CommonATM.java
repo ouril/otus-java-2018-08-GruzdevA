@@ -1,18 +1,20 @@
 package ATM;
 
+import ATMDepartment.DepartmentPart;
+import ATMDepartment.DepartmentVisitor;
 import MementoATM.Memento;
 import MementoATM.Originator;
-import MementoATM.State;
 
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
-public class CommonATM extends ATM implements Originator {
+public class CommonATM extends ATM implements Originator, DepartmentPart {
     private Set<ClientAccount> accounts = new HashSet<>();
     private ClientAccount currentAccount = null;
 
-    CommonATM(CashManager cashBox) {
+
+    CommonATM(CashBox cashBox) {
         super(cashBox);
     }
 
@@ -97,22 +99,27 @@ public class CommonATM extends ATM implements Originator {
     }
 
     @Override
-    public void setState(State state) {
-
+    public void setState(CashManager state) {
+        cashBox = state;
     }
 
     @Override
-    public String getState() {
-        return null;
+    public CashManager getState() {
+        return cashBox;
     }
 
     @Override
     public Memento saveState() {
-        return null;
+        return new Memento(cashBox);
     }
 
     @Override
     public void restoreState(Memento memento) {
+        this.cashBox = memento.getState();
+    }
 
+    @Override
+    public void accept(DepartmentVisitor visitor) {
+        visitor.visit(this);
     }
 }

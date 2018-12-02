@@ -3,8 +3,23 @@ package ATM;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 public class CashBox implements CashManager {
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        CashBox cashBox = (CashBox) o;
+        return Objects.equals(faceValuesList, cashBox.faceValuesList) &&
+                Objects.equals(faceValues, cashBox.faceValues);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(faceValuesList, faceValues);
+    }
 
     final private List<Integer> faceValuesList;
     private HashMap<Integer, Integer> faceValues = new HashMap<>();
