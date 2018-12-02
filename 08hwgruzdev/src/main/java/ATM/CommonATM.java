@@ -7,15 +7,35 @@ import MementoATM.Originator;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 public class CommonATM extends ATM implements Originator, DepartmentPart {
     private Set<ClientAccount> accounts = new HashSet<>();
     private ClientAccount currentAccount = null;
 
+    public String getId() {
+        return id;
+    }
 
-    CommonATM(CashBox cashBox) {
+    final private String id;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        CommonATM commonATM = (CommonATM) o;
+        return Objects.equals(id, commonATM.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
+
+    CommonATM(CashBox cashBox, String id) {
         super(cashBox);
+        this.id = id;
     }
 
     @Override
@@ -110,7 +130,7 @@ public class CommonATM extends ATM implements Originator, DepartmentPart {
 
     @Override
     public Memento saveState() {
-        return new Memento(cashBox);
+        return new Memento(cashBox, id);
     }
 
     @Override
@@ -118,8 +138,14 @@ public class CommonATM extends ATM implements Originator, DepartmentPart {
         this.cashBox = memento.getState();
     }
 
+
     @Override
-    public void accept(DepartmentVisitor visitor) {
-        visitor.visit(this);
+    public int acceptGetValue(DepartmentVisitor visitor) {
+        return visitor.visitGetValueAtm(this);
+    }
+
+    @Override
+    public void acceptSetBasicState(DepartmentVisitor visitor) {
+        visitor.visitSetBasicState(this);
     }
 }
