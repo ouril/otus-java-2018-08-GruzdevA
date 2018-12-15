@@ -3,29 +3,19 @@ package ru.otus.gruzdev3;
 import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
+import java.util.function.UnaryOperator;
 
-public class MyArrayList<E> implements Collection<E> {
+public class MyArrayList<E> implements List<E> {
+    final int LIMIT = 10;
 
     private int size;
     private E[] array;
 
     public MyArrayList() {
+
         size = 0;
-        array = (E[]) new Object[10];
+        array = (E[]) new Object[LIMIT];
 
-    }
-
-    static public void main(String... args){
-        MyArrayList<String> test = new MyArrayList<>();
-        for (int i = 0; i < 200; i++){
-            String str = "Element " +  String.valueOf(i);
-            test.add(str);
-        }
-        System.out.println(test);
-
-        for (int i = 0; i < 200; i++) {
-            System.out.println(test.get(i));
-        }
     }
 
     public int size() {
@@ -97,7 +87,7 @@ public class MyArrayList<E> implements Collection<E> {
         try {
             array[size] = t;
         } catch (java.lang.ArrayIndexOutOfBoundsException e) {
-            int newLength = array.length * 2;
+            int newLength = array.length + LIMIT;
             E[] newArray = (E[]) new Object[newLength];
             System.arraycopy(array, 0, newArray, 0, array.length);
             array = newArray;
@@ -148,6 +138,11 @@ public class MyArrayList<E> implements Collection<E> {
        }
     }
 
+    @Override
+    public boolean addAll(int index, Collection<? extends E> c) {
+        return false;
+    }
+
     public boolean removeAll(Collection<?> c) {
         try {
             c.forEach(obj -> remove(obj));
@@ -191,6 +186,16 @@ public class MyArrayList<E> implements Collection<E> {
 
     }
 
+    @Override
+    public void replaceAll(UnaryOperator<E> operator) {
+
+    }
+
+    @Override
+    public void sort(Comparator<? super E> c) {
+
+    }
+
 
     public void clear() {
         size = 0;
@@ -204,6 +209,16 @@ public class MyArrayList<E> implements Collection<E> {
         return array[index];
     }
 
+    @Override
+    public E set(int index, E element) {
+        return null;
+    }
+
+    @Override
+    public void add(int index, E element) {
+
+    }
+
     public E remove(int index) {
 
             int newSize;
@@ -212,6 +227,36 @@ public class MyArrayList<E> implements Collection<E> {
                 System.arraycopy(array, index + 1, array, index, newSize - index);
             }
             return obj;
+    }
+
+    @Override
+    public int indexOf(Object o) {
+        return 0;
+    }
+
+    @Override
+    public int lastIndexOf(Object o) {
+        return 0;
+    }
+
+    @Override
+    public ListIterator<E> listIterator() {
+        return null;
+    }
+
+    @Override
+    public ListIterator<E> listIterator(int index) {
+        return null;
+    }
+
+    @Override
+    public List<E> subList(int fromIndex, int toIndex) {
+        return null;
+    }
+
+    @Override
+    public Spliterator<E> spliterator() {
+        return null;
     }
 
 }
