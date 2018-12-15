@@ -62,7 +62,7 @@
                     </descriptorRefs>
                     <archive>
                         <manifest>
-                            <mainClass>ru.otus.gruzdev.Main</mainClass>
+                            <mainClass>ru.otus.I01hwgruzdev.Main</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
